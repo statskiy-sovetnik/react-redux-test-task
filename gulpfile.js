@@ -20,9 +20,9 @@ gulp.task("bundle-js", () => {
         .pipe(gulp.dest("src/dist"));
 });
 
-gulp.task("watch-sass", () => {
-    gulp.watch(["src/sass/**/*.sass"], gulp.series("gulp-sass"));
+gulp.task("watch", () => {
+    gulp.watch(["src/sass/**/*.sass", "src/scripts/**/*.js"], gulp.series("gulp-sass", "bundle-js"));
 });
 
-gulp.task("default", gulp.series("bundle-js", "gulp-sass", "watch-sass"));
+gulp.task("default", gulp.series("bundle-js", "gulp-sass", "watch"));
 
