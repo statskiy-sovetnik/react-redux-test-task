@@ -7218,3 +7218,9 @@ a.text-dark:hover, a.text-dark:focus {
 
 body {
   overflow: hidden; }
+  body .form-comp-wrapper {
+    padding: 100px 50px; }
+    body .form-comp-wrapper .form-heading {
+      margin-bottom: 50px !important; }
+    body .form-comp-wrapper .form-wrapper {
+      width: 400px; }
