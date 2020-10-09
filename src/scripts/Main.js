@@ -9,7 +9,10 @@ class Main extends React.Component {
         }
     }
 
+    //Вызывается компонентом Form, когда нужно добавить
+    // нового участника забега в таблицу
     addMember() {
+
     }
 
     render(){
