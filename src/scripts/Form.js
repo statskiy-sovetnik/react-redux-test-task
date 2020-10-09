@@ -17,6 +17,7 @@ class Form extends React.Component {
             fee: null,
             /*---*/
             is_phone_focused: false,  //true если поле с номеров телефона в фокусе
+            is_email_focused: false,
         }
     }
 
@@ -66,6 +67,18 @@ class Form extends React.Component {
         return phone_number == null ? false : phone_number.length === 11 + 5;
     }
 
+    isEmailValid(email) {
+        if(email == null) {return false}
+
+        for(let i = 0; i < email.length; i++) {
+            if(email[i] === "@") {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     render() {
 
         //Проверка на заполненность полей
@@ -80,20 +93,24 @@ class Form extends React.Component {
             }
         }
         
-        const button = fields_filled ? (<button className="btn btn-primary">Отправить заявку</button>) :
-            (<button disabled className="btn btn-primary">Отправить заявку</button>);
 
-        let email_input = (
-            <input onInput={(event) => {
-                this.changeInputValueState(event.currentTarget.id)}
-            } type="email" className="form-control" id="member-email-input"/>
-        );
-
-        //const phone_input_group_class_name = (this.state.is_phone_focused) ? " was-validated" : "";
-        let phone_input_class_name = "";
-        if(this.state.is_phone_focused) {
-            phone_input_class_name = (this.isPhoneValid(this.state.phone)) ? " is-valid" : " is-invalid";
+        //Валидация почты
+        let email_input_class_name = "";
+        const emailValid = this.isEmailValid(this.state.email);
+        if(this.state.is_email_focused) {
+            email_input_class_name = emailValid ? " is-valid" : " is-invalid";
         }
+
+        //Проверяем телефон на валидность
+        let phone_input_class_name = "";
+        const phoneValid = this.isPhoneValid(this.state.phone);
+        if(this.state.is_phone_focused) {
+            phone_input_class_name = phoneValid ? " is-valid" : " is-invalid";
+        }
+
+        const button = (fields_filled && emailValid && phoneValid) ?
+            (<button className="btn btn-primary">Отправить заявку</button>) :
+            (<button disabled className="btn btn-primary">Отправить заявку</button>);
 
         return (
             <div className="form-comp-wrapper">
@@ -127,7 +144,15 @@ class Form extends React.Component {
                                 <label htmlFor="member-email-input" className="col-form-label">Email</label>
                             </div>
                             <div className="col-8">
-                                {email_input}
+                                <input
+                                    onInput={(event) => {
+                                        this.changeInputValueState(event.currentTarget.id)}
+                                    }
+                                    onFocus={() => {this.setState({is_email_focused: true})}}
+                                    onBlur={() => {this.setState({is_email_focused: false})}}
+                                    type="email"
+                                    className={"form-control" + email_input_class_name}
+                                    id="member-email-input"/>
                             </div>
                         </div>
                         <div className={"form-group row"}>
@@ -180,7 +205,6 @@ class Form extends React.Component {
     }
 
     componentDidMount() {
-
         const phone_field = document.getElementById("phone");
         const options = {
             mask: "+{7}(000)000-00-00",
