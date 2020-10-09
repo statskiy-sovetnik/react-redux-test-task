@@ -7,16 +7,17 @@ class Form extends React.Component {
         super(props);
 
         this.state = {
+            //Данные пользователя вынеси здесь в отдельный объект потом
             member_name: null,
             email: null,
             day: null,
             month: null,
             year: null,
             phone: null,
-            distance: null,
+            distance: "3 км",
             fee: null,
             /*---*/
-            is_phone_focused: false,  //true если поле с номеров телефона в фокусе
+            is_phone_focused: false,  //true если поле с номером телефона в фокусе
             is_email_focused: false,
         }
     }
@@ -79,6 +80,22 @@ class Form extends React.Component {
         return false;
     }
 
+    addMemberFromForm(event) {
+        event.preventDefault();
+
+        let member = {};
+        member.member_name = this.state.member_name;
+        member.email = this.state.email;
+        member.day = this.state.day;
+        member.month = this.state.month;
+        member.year = this.state.year;
+        member.phone = this.state.phone;
+        member.distance = this.state.distance;
+        member.fee = this.state.fee;
+
+        this.props.addMember(member);
+    }
+
     render() {
 
         //Проверка на заполненность полей
@@ -92,7 +109,6 @@ class Form extends React.Component {
                break;
             }
         }
-        
 
         //Валидация почты
         let email_input_class_name = "";
@@ -108,9 +124,16 @@ class Form extends React.Component {
             phone_input_class_name = phoneValid ? " is-valid" : " is-invalid";
         }
 
-        const button = (fields_filled && emailValid && phoneValid) ?
-            (<button className="btn btn-primary">Отправить заявку</button>) :
-            (<button disabled className="btn btn-primary">Отправить заявку</button>);
+        let button = (fields_filled && emailValid && phoneValid) ?
+            (<button
+                onClick={(event) => {this.addMemberFromForm(event)}}
+                 className="btn btn-primary"
+            >Отправить заявку</button>) :
+            (<button
+                disabled
+                 className="btn btn-primary"
+                 onClick={(event) => {this.addMemberFromForm(event)}}
+            >Отправить заявку</button>);
 
         return (
             <div className="form-comp-wrapper">
