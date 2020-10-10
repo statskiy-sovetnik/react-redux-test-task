@@ -1,4 +1,5 @@
 @import "../libs/bootstrap/scss/bootstrap"
+@import "../libs/open-iconic-master/font/css/open-iconic-bootstrap.scss"
 
 body
   overflow: hidden
@@ -22,13 +23,20 @@ body
       .table-heading
         margin-bottom: 50px
 
+      .sort-heading
+        margin-bottom: 15px
+
       .table-wrapper
         width: 750px
 
         td, th
           font-size: 12px
 
-
-
+        .table-arrow-icon
+          font-size: 10px
+          &:hover
+            cursor: pointer
+          &.right-icon
+            margin-right: 5px
 
 

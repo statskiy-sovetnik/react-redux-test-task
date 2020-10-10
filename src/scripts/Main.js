@@ -11,7 +11,7 @@ class Main extends React.Component {
         super(props);
 
         this.state = {
-            members: [],
+            members: []
         }
     }
 
@@ -23,7 +23,9 @@ class Main extends React.Component {
         });
     }
 
-    transpileMemberObj(member) {
+    //Преобразует элемент users из файла user.json в объект пользователя,
+    //который добавляется в состояние Main
+    transformMemberObj(member) {
         let member_ = {};
         let member_date = member.date.split(".");
 
@@ -48,7 +50,7 @@ class Main extends React.Component {
         );
     }
 
-    async getMembersFromFile(url) {
+    async getMembersFromJson(url) {
         let download_promise = fetch(url);
         const fetch_response = await download_promise;
         return await fetch_response.json();
@@ -58,11 +60,11 @@ class Main extends React.Component {
         let members = [];
 
         //Асинхронно загружаем содержимое .json файла с учатниками
-        this.getMembersFromFile("../public/users.json").then((members_obj) => {
+        this.getMembersFromJson("../public/users.json").then((members_obj) => {
             members = members_obj.users || members;
 
             for(let i = 0; i < members.length; i++) {
-                this.addMember(this.transpileMemberObj(members[i]));
+                this.addMember(this.transformMemberObj(members[i]));
             }
         });
     }
