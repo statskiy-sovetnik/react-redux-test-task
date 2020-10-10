@@ -28,6 +28,10 @@ class Form extends React.Component {
         Object.assign(this.state, this.INITIAL_STATE);
     }
 
+    takeNumFromDist(dist_str) {
+        return +dist_str.slice(0, dist_str.length - 2)
+    }
+
     //Берет значение поля и изменяет состояние компонента Form
     changeInputValueState(id) {
         let new_state_obj = {};
@@ -61,7 +65,7 @@ class Form extends React.Component {
                 }
                 break;
             case "distance-select":
-                new_state_obj.distance = input.value;
+                new_state_obj.distance = this.takeNumFromDist(input.value) + " км";
                 break;
             default:
                 break;
