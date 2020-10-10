@@ -17,40 +17,18 @@ class Table extends React.Component {
     renderTableBody() {
         let rows = [];
         const members = this.props.members.slice();
+        const members_num = members.length;
+        let start_member_ind, end_member_ind;
+        const cur_page = this.state.current_page;
 
-        //Сортировка участников
-        switch(this.state.sort_function) {
-            case "date":
-                if(this.state.least) {
-                    members.sort((a, b) => {return this.compareMembersByDateLeast(a, b)});
-                }
-                else {
-                    members.sort((a, b) => {return this.compareMembersByDateGreater(a, b)});
-                }
-                break;
-            case "fee":
-                if(this.state.least) {
-                    members.sort((a, b) => {return this.compareMembersByFeeLeast(a, b)})
-                }
-                else {
-                    members.sort((a, b) => {return this.compareMembersByFeeGreater(a, b)})
-                }
-                break;
-            case "distance":
-                if(this.state.least) {
-                    console.log(this);
-                    members.sort((a, b) => {return this.compareMembersByDistLeast(a, b)})
-                }
-                else {
-                    console.log(this);
-                    members.sort((a, b) => {return this.compareMembersByDistGreater(a, b)})
-                }
-                break;
-            default:
-                break;
+        if(!members_num) {
+            return React.createElement("tbody", [], []);
         }
 
-        for(let i = 0; i < members.length; i++) {
+        start_member_ind = (cur_page - 1) * this.SHOW_MEMBERS;
+        end_member_ind = Math.min(cur_page * this.SHOW_MEMBERS - 1, members_num - 1);
+
+        for(let i = start_member_ind; i <= end_member_ind; i++) {
             rows.push((
                 <tr key={"table-row-" + i}>
                     <td>{members[i].member_name}</td>
@@ -63,6 +41,36 @@ class Table extends React.Component {
             ));
         }
 
+        //Сортировка участников
+        switch(this.state.sort_function) {
+            case "date":
+                if(this.state.least) {
+                    rows.sort((a, b) => {return this.compareMembersByDateLeast(a, b)});
+                }
+                else {
+                    rows.sort((a, b) => {return this.compareMembersByDateGreater(a, b)});
+                }
+                break;
+            case "fee":
+                if(this.state.least) {
+                    rows.sort((a, b) => {return this.compareMembersByFeeLeast(a, b)})
+                }
+                else {
+                    rows.sort((a, b) => {return this.compareMembersByFeeGreater(a, b)})
+                }
+                break;
+            case "distance":
+                if(this.state.least) {
+                    rows.sort((a, b) => {return this.compareMembersByDistLeast(a, b)})
+                }
+                else {
+                    rows.sort((a, b) => {return this.compareMembersByDistGreater(a, b)})
+                }
+                break;
+            default:
+                break;
+        }
+
         return React.createElement("tbody", [], rows);
     }
 
@@ -73,7 +81,6 @@ class Table extends React.Component {
         const prev_disable_str = (this.state.current_page === 1 || pages_num === 1) ? " disabled" : "";
         const next_disable_str = (this.state.current_page === pages_num || pages_num === 1) ? " disabled" : "";
 
-        console.log(pages_num);
         if(pages_num === 1) {
             return;
         }
@@ -93,7 +100,6 @@ class Table extends React.Component {
         )
 
         for(let i = 0; i < pages_num; i++) {
-            let active_btn_class_str = (i + 1 === this.state.current_page) ? " active" : "";
             list_elems.push(
                 <li key={"page-" + (i + 1)} className="page-item">
                     <a
@@ -101,7 +107,7 @@ class Table extends React.Component {
                             event.preventDefault();
                             this.goToPage(i + 1);
                         }}
-                        className={"page-link" + active_btn_class_str} href="#">
+                        className={"page-link"} href="#">
                         {i + 1}
                     </a>
                 </li>
@@ -126,12 +132,18 @@ class Table extends React.Component {
     }
 
     goToPage(page) {
-
+        this.setState({
+            current_page: +page,
+        })
     }
 
     compareMembersByDateLeast(member_1, member_2) {
-        return (+member_1.year * 365 + +member_1.month * 12 + +member_1.day) - (
-            +member_2.year * 365 + +member_2.month * 12 + +member_2.day
+        const date_ind_in_row = 1;
+        const date1 = member_1.props.children[date_ind_in_row].props.children.split(".");
+        const date2 = member_2.props.children[date_ind_in_row].props.children.split(".");
+
+        return -(+date1[2] * 365 + +date1[1] * 30 + +date1[0]) + (
+            +date2[2] * 365 + +date2[1] * 30 + +date2[0]
         );
     }
 
@@ -140,10 +152,11 @@ class Table extends React.Component {
     }
 
     compareMembersByFeeLeast(member_1, member_2) {
-        const fee_1 = +(member_1.fee.split(" ")[0]);
-        const fee_2 = +(member_2.fee.split(" ")[0]);
+        const fee_ind_in_row = 5;
+        const fee1 = +member_1.props.children[fee_ind_in_row].props.children.split(" ")[0];
+        const fee2 = +member_2.props.children[fee_ind_in_row].props.children.split(" ")[0];
 
-        return fee_1 - fee_2;
+        return fee1 - fee2;
     }
 
     compareMembersByFeeGreater(member_1, member_2) {
@@ -151,10 +164,11 @@ class Table extends React.Component {
     }
 
     compareMembersByDistLeast(member_1, member_2) {
-        const dist_1 = +(member_1.distance.split(" ")[0]);
-        const dist_2 = +(member_2.distance.split(" ")[0]);
+        const dist_ind_in_row = 4;
+        const dist1 = +member_1.props.children[dist_ind_in_row].props.children.split(" ")[0];
+        const dist2 = +member_2.props.children[dist_ind_in_row].props.children.split(" ")[0];
 
-        return dist_1 - dist_2;
+        return dist1 - dist2;
     }
 
     compareMembersByDistGreater(member_1, member_2) {
@@ -193,7 +207,7 @@ class Table extends React.Component {
                     {this.renderPaginationList()}
                 </nav>
                 <p className="sort-heading">
-                    Сортировка: {sort_name}
+                    {"Сортировка:" + sort_name + "; Страница: " + (this.state.current_page)}
                 </p>
                 <div className="table-wrapper">
                     <table className="table table-sm">
