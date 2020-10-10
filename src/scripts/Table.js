@@ -5,9 +5,12 @@ class Table extends React.Component {
     constructor(props) {
         super(props);
 
+        this.SHOW_MEMBERS = 4; //сколько человек отображается на одной странице таблицы
+
         this.state = {
             sort_function: null,  //может быть date, fee, distance
             least: false,  //true, если сортировка от меньшего к большему
+            current_page: 1, //текущая активная страница таблицы
         }
     }
 
@@ -61,6 +64,69 @@ class Table extends React.Component {
         }
 
         return React.createElement("tbody", [], rows);
+    }
+
+    renderPaginationList() {
+        let list_elems = [];
+        const members_num = this.props.members.length;
+        const pages_num = Math.ceil( members_num / this.SHOW_MEMBERS);
+        const prev_disable_str = (this.state.current_page === 1 || pages_num === 1) ? " disabled" : "";
+        const next_disable_str = (this.state.current_page === pages_num || pages_num === 1) ? " disabled" : "";
+
+        console.log(pages_num);
+        if(pages_num === 1) {
+            return;
+        }
+
+        //Добавляем кнопку "назад"
+        list_elems.push(
+            <li key="page-back" className={"page-item" + prev_disable_str}>
+                <a
+                    onClick={(event) => {
+                        event.preventDefault();
+                        this.goToPage(this.state.current_page - 1);
+                    }}
+                    className="page-link" href="#">
+                    Назад
+                </a>
+            </li>
+        )
+
+        for(let i = 0; i < pages_num; i++) {
+            let active_btn_class_str = (i + 1 === this.state.current_page) ? " active" : "";
+            list_elems.push(
+                <li key={"page-" + (i + 1)} className="page-item">
+                    <a
+                        onClick={(event) => {
+                            event.preventDefault();
+                            this.goToPage(i + 1);
+                        }}
+                        className={"page-link" + active_btn_class_str} href="#">
+                        {i + 1}
+                    </a>
+                </li>
+            )
+        }
+
+        //Добавляем кнопку "вперед"
+        list_elems.push(
+            <li key="page-forward" className={"page-item" + next_disable_str}>
+                <a
+                    onClick={(event) => {
+                        event.preventDefault();
+                        this.goToPage(this.state.current_page + 1);
+                    }}
+                    className="page-link" href="#">
+                    Вперёд
+                </a>
+            </li>
+        )
+
+        return React.createElement("ul", {className: "pagination"}, list_elems);
+    }
+
+    goToPage(page) {
+
     }
 
     compareMembersByDateLeast(member_1, member_2) {
@@ -123,6 +189,9 @@ class Table extends React.Component {
             <div id="table-comp-wrapper">
                 <h4 className="table-heading">Таблица участников</h4>
 
+                <nav aria-label="Переход по таблице">
+                    {this.renderPaginationList()}
+                </nav>
                 <p className="sort-heading">
                     Сортировка: {sort_name}
                 </p>
