@@ -38,11 +38,12 @@
     "babelify": "^10.0.0",
     "bootstrap": "^4.5.2",
     "browserify": "^16.5.2",
+    "core-js": "^3.6.5",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-sass": "^4.1.0",
     "imask": "^6.0.5",
-    "redux": "^4.0.5",
+    "regenerator-runtime": "^0.13.7",
     "vinyl-source-stream": "^2.0.0"
   },
   "moduleDirectories": [

@@ -2,6 +2,25 @@ import React from "react";
 
 class Table extends React.Component {
 
+    renderTableBody() {
+        let rows = [];
+        const members = this.props.members.slice();
+
+        for(let i = 0; i < members.length; i++) {
+            rows.push((
+                <tr>
+                    <td>{members[i].member_name}</td>
+                    <td>{members[i].day + "." + members[i].month + "." + members[i].year}</td>
+                    <td>{members[i].email}</td>
+                    <td>{members[i].phone}</td>
+                    <td>{members[i].distance}</td>
+                    <td>{members[i].fee}</td>
+                </tr>
+            ));
+        }
+
+        return React.createElement("tbody", [], rows);
+    }
 
     render() {
         return (
@@ -19,16 +38,7 @@ class Table extends React.Component {
                             <th scope="col-1">Взнос</th>
                         </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>Иван Евгенич Гладкиъ</td>
-                                <td>09.02.2000</td>
-                                <td>ivangladkikh3@gmail.com</td>
-                                <td>89237036186</td>
-                                <td>3 км</td>
-                                <td>13000</td>
-                            </tr>
-                        </tbody>
+                        {this.renderTableBody()}
                     </table>
                 </div>
             </div>
