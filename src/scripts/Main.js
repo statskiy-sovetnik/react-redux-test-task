@@ -1,5 +1,6 @@
 import React from "react";
 import {Form} from "./Form";
+import {Table} from "./Table";
 
 class Main extends React.Component {
     constructor(props) {
@@ -20,8 +21,9 @@ class Main extends React.Component {
 
     render(){
         return (
-          <div>
+          <div id="main-wrapper">
               <Form addMember={(member) => {this.addMember(member)}}/>
+              <Table/>
           </div>
         );
     }
