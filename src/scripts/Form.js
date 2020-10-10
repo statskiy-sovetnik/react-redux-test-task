@@ -6,7 +6,10 @@ class Form extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
+        /* ____ КОНСТАНТЫ _____*/
+
+        this.FORM_ID = "form_comp_form";
+        this.INITIAL_STATE = {
             //Данные пользователя вынеси здесь в отдельный объект потом
             member_name: null,
             email: null,
@@ -20,6 +23,9 @@ class Form extends React.Component {
             is_phone_focused: false,  //true если поле с номером телефона в фокусе
             is_email_focused: false,
         }
+
+        this.state = {};
+        Object.assign(this.state, this.INITIAL_STATE);
     }
 
     //Берет значение поля и изменяет состояние компонента Form
@@ -96,6 +102,17 @@ class Form extends React.Component {
         this.props.addMember(member);
     }
 
+    clearForm() {
+        const form = document.getElementById(this.FORM_ID);
+        let inputs = form.querySelectorAll("input.form-control");
+
+        inputs.forEach((elem) => {
+            elem.value = "";
+        });
+
+        this.setState(this.INITIAL_STATE);
+    }
+
     render() {
 
         //Проверка на заполненность полей
@@ -126,20 +143,22 @@ class Form extends React.Component {
 
         let button = (fields_filled && emailValid && phoneValid) ?
             (<button
-                onClick={(event) => {this.addMemberFromForm(event)}}
+                onClick={(event) => {
+                    this.addMemberFromForm(event);
+                    this.clearForm();
+                }}
                  className="btn btn-primary"
             >Отправить заявку</button>) :
             (<button
                 disabled
                  className="btn btn-primary"
-                 onClick={(event) => {this.addMemberFromForm(event)}}
             >Отправить заявку</button>);
 
         return (
             <div className="form-comp-wrapper">
                 <h3 className="form-heading">Оставить заявку на участие в забеге</h3>
                 <div className="form-wrapper">
-                    <form>
+                    <form id={this.FORM_ID}>
                         <div className="form-group row">
                             <div className="col-4">
                                 <label htmlFor="member_name" className="col-form-label">ФИО</label>
