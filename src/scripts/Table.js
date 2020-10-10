@@ -96,19 +96,36 @@ class Table extends React.Component {
     }
 
     render() {
-        /*let sort_name = "";
+        let sort_name = "";
         switch (this.state.sort_function) {
             case "date":
-
-        }*/
+                sort_name = " по дате"
+                break;
+            case "distance":
+                sort_name = " по дистанции забега"
+                break;
+            case "fee":
+                sort_name = " по взносу"
+                break;
+            default:
+                sort_name = " нет";
+        }
+        if(this.state.sort_function !== null) {
+            if(this.state.least) {
+                sort_name += ", от меньшего к большему"
+            }
+            else {
+                sort_name += ", от большего к меньшему"
+            }
+        }
 
         return (
             <div id="table-comp-wrapper">
                 <h4 className="table-heading">Таблица участников</h4>
 
-                <h6 className="sort-heading">
-                    Сортировка
-                </h6>
+                <p className="sort-heading">
+                    Сортировка: {sort_name}
+                </p>
                 <div className="table-wrapper">
                     <table className="table table-sm">
                         <thead>

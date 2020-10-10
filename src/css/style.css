@@ -7937,6 +7937,7 @@ body {
       body #main-wrapper #table-comp-wrapper .table-heading {
         margin-bottom: 50px; }
       body #main-wrapper #table-comp-wrapper .sort-heading {
+        font-size: 13px;
         margin-bottom: 15px; }
       body #main-wrapper #table-comp-wrapper .table-wrapper {
         width: 750px; }
