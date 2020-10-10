@@ -23,6 +23,22 @@ class Main extends React.Component {
         });
     }
 
+    transpileMemberObj(member) {
+        let member_ = {};
+        let member_date = member.date.split(".");
+
+        member_.member_name = member.name;
+        member_.day = member_date[0];
+        member_.month = member_date[1];
+        member_.year = member_date[2];
+        member_.phone = member.phone;
+        member_.email = member.email;
+        member_.distance = member.distance + " км";
+        member_.fee = member.payment + " руб.";
+
+        return member_;
+    }
+
     render(){
         return (
           <div id="main-wrapper">
@@ -34,14 +50,21 @@ class Main extends React.Component {
 
     async getMembersFromFile(url) {
         let download_promise = fetch(url);
-        let promise_response = await download_promise; //ждем, пока промис выполнится
-        return typeof promise_response;
+        const fetch_response = await download_promise;
+        return await fetch_response.json();
     }
 
     componentDidMount() {
+        let members = [];
 
         //Асинхронно загружаем содержимое .json файла с учатниками
-        this.getMembersFromFile("../../public/users.json").then(console.log);
+        this.getMembersFromFile("../public/users.json").then((members_obj) => {
+            members = members_obj.users || members;
+
+            for(let i = 0; i < members.length; i++) {
+                this.addMember(this.transpileMemberObj(members[i]));
+            }
+        });
     }
 }
 
