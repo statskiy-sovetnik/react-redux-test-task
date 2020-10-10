@@ -7226,4 +7226,12 @@ body {
     body #main-wrapper .form-comp-wrapper .form-heading {
       margin-bottom: 50px !important; }
     body #main-wrapper .form-comp-wrapper .form-wrapper {
-      width: 400px; }
+      width: 300px; }
+    body #main-wrapper #table-comp-wrapper {
+      margin-left: 80px; }
+      body #main-wrapper #table-comp-wrapper .table-heading {
+        margin-bottom: 50px; }
+      body #main-wrapper #table-comp-wrapper .table-wrapper {
+        width: 750px; }
+        body #main-wrapper #table-comp-wrapper .table-wrapper td, body #main-wrapper #table-comp-wrapper .table-wrapper th {
+          font-size: 12px; }

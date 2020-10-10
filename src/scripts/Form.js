@@ -156,7 +156,7 @@ class Form extends React.Component {
 
         return (
             <div className="form-comp-wrapper">
-                <h3 className="form-heading">Оставить заявку на участие в забеге</h3>
+                <h4 className="form-heading">Оставить заявку на участие в забеге</h4>
                 <div className="form-wrapper">
                     <form id={this.FORM_ID}>
                         <div className="form-group row">
