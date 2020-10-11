@@ -23,7 +23,7 @@ gulp.task("bundle-js", () => {
 });
 
 gulp.task("watch", () => {
-    gulp.watch(["src/sass/**/*.sass", "src/scripts/**/*.js"], gulp.series("gulp-sass", "bundle-js"));
+    gulp.watch(["src/sass/**/*.sass", "src/scripts/**/*.js", "src/index.js"], gulp.series("gulp-sass", "bundle-js"));
 });
 
 gulp.task("default", gulp.series("bundle-js", "gulp-sass", "watch"));
