@@ -43,7 +43,7 @@
     "gulp-autoprefixer": "^7.0.1",
     "gulp-sass": "^4.1.0",
     "imask": "^6.0.5",
-    "jquery": "^2.2.4",
+    "react-datepicker": "^3.2.2",
     "regenerator-runtime": "^0.13.7",
     "vinyl-source-stream": "^2.0.0",
     "whatwg-fetch": "^3.4.1"
