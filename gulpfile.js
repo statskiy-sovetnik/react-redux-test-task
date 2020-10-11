@@ -14,7 +14,9 @@ gulp.task("gulp-sass", () => {
 
 gulp.task("bundle-js", () => {
     return browserify({entries: "src/index.js", extensions: ['.js'], debug: true})
-        .transform('babelify', {presets: ['@babel/preset-env', '@babel/preset-react']})
+        .transform('babelify', {
+            presets: ['@babel/preset-env', '@babel/preset-react']
+        })
         .bundle()
         .pipe(source("index.js"))
         .pipe(gulp.dest("src/dist"));

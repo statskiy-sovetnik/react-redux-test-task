@@ -5,6 +5,7 @@ import {Table} from "./Table";
 //Полифиллы
 import "core-js/stable";
 import "regenerator-runtime/runtime";
+import "whatwg-fetch";
 
 class Main extends React.Component {
     constructor(props) {
@@ -20,6 +21,8 @@ class Main extends React.Component {
     addMember(member) {
         this.setState({
             members: this.state.members.slice().concat([member]),
+        }, () => {
+            console.log(this.state);
         });
     }
 

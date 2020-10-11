@@ -71,9 +71,7 @@ class Form extends React.Component {
                 break;
         }
 
-        this.setState(new_state_obj, () => {
-            console.log(this.state)
-        });
+        this.setState(new_state_obj);
     }
 
     isPhoneValid(phone_number) {
