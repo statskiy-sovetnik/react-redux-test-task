@@ -11,7 +11,6 @@ class Form extends React.Component {
 
         this.FORM_ID = "form_comp_form";
 
-        const date_now = new Date();
         this.INITIAL_STATE = {
             //Данные пользователя вынеси здесь в отдельный объект потом
             member_name: null,

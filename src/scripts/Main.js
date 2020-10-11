@@ -2,11 +2,6 @@ import React from "react";
 import {Form} from "./Form";
 import {Table} from "./Table";
 
-//Полифиллы
-import "core-js/stable";
-import "regenerator-runtime/runtime";
-import "whatwg-fetch";
-
 
 class Main extends React.Component {
     constructor(props) {
