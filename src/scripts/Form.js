@@ -88,7 +88,7 @@ class Form extends React.Component {
         member.year = this.state.year;
         member.phone = this.state.phone;
         member.distance = this.state.distance;
-        member.fee = this.state.fee;
+        member.fee = this.state.fee + " руб.";
 
         this.props.addMember(member);
     }
@@ -120,7 +120,7 @@ class Form extends React.Component {
             if(key === "distance") {
                 continue;
             }
-            if(this.state["" + key] == null) {
+            if(this.state["" + key] == null || this.state["" + key] === "") {
                fields_filled = false;
                break;
             }
@@ -246,7 +246,10 @@ class Form extends React.Component {
                             </div>
                             <div className="col-8">
                                 <input onInput={(event) => {
-                                    this.changeInputValueState("fee", event.currentTarget.value)}
+                                    let valid_value = event.currentTarget.value.replace(/[^\d]/g, '');
+
+                                    event.currentTarget.value = valid_value;
+                                    this.changeInputValueState("fee", valid_value)}
                                 } type="number" className="form-control" id="fee"/>
                             </div>
                         </div>
