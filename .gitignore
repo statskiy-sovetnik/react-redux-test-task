@@ -5,6 +5,5 @@
 !.gitignore
 
 *.ini
-package-lock.json
 
 
